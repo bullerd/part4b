@@ -1,8 +1,9 @@
 const notesRouter = require("express").Router();
 const Note = require("../models/note");
+const logger = require("../utils/logger");
 
 notesRouter.get("/", async (request, response, next) => {
-  console.log("handling /api/notes");
+  logger.info("handling /api/notes");
   try {
     const notes = await Note.find({});
     response.json(notes);
@@ -20,7 +21,7 @@ notesRouter.get("/:id", async (request, response, next) => {
     }
     response.json(note);
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     next(error);
   }
 });
@@ -53,7 +54,7 @@ notesRouter.put("/:id", async (request, response, next) => {
 });
 
 notesRouter.post("/", async (request, response, next) => {
-  console.log("adding a note");
+  logger.info("adding a note");
   const body = request.body;
 
   if (!body.content) {
